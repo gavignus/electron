@@ -58,11 +58,14 @@ DesktopCapturer::~DesktopCapturer() {}
 void DesktopCapturer::StartHandling(bool capture_window,
                                     bool capture_screen,
                                     const gfx::Size& thumbnail_size) {
+// FIXME: Replace with multiplatform code
+/*
 #if defined(OS_WIN)
   using_directx_capturer_ =
       content::desktop_capture::CreateDesktopCaptureOptions()
           .allow_directx_capturer();
 #endif  // defined(OS_WIN)
+*/
   std::unique_ptr<webrtc::DesktopCapturer> screen_capturer(
       capture_screen ? content::desktop_capture::CreateScreenCapturer()
                      : nullptr);
@@ -94,6 +97,8 @@ bool DesktopCapturer::OnRefreshFinished() {
         DesktopCapturer::Source{media_list_source, std::string()});
   }
 
+// FIXME: Replace with multiplatform code
+/*
 #if defined(OS_WIN)
   // Gather the same unique screen IDs used by the electron.screen API in order
   // to provide an association between it and desktopCapturer/getUserMedia.
@@ -119,7 +124,8 @@ bool DesktopCapturer::OnRefreshFinished() {
       }
     }
   }
-#elif defined(OS_MACOSX)
+  */
+#if defined(OS_MACOSX)
   // On Mac, the IDs across the APIs match.
   for (auto& source : sources) {
     if (source.media_list_source.id.type ==
